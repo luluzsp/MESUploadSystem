@@ -83,7 +83,7 @@ namespace MESUploadSystem.Forms
 
             var lblTitle = new Label
             {
-                Text = "📦 批次物料绑定过站软件",
+                Text = "📦 批次物料绑定过站软件V2",
                 Font = new Font("Microsoft YaHei", 16F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(32, 33, 36),
                 Location = new Point(20, 20),
@@ -430,6 +430,14 @@ namespace MESUploadSystem.Forms
 
         private void AppendLog(string message, bool isError = false)
         {
+            // Limit log size to prevent performance issues
+            const int MaxLogLength = 50000;
+            if (txtLog.TextLength > MaxLogLength)
+            {
+                txtLog.Select(0, txtLog.TextLength - (MaxLogLength / 2));
+                txtLog.SelectedText = "";
+            }
+
             txtLog.SelectionStart = txtLog.TextLength;
             txtLog.SelectionColor = isError ? DangerColor : Color.FromArgb(32, 33, 36);
             txtLog.AppendText(message + Environment.NewLine);
